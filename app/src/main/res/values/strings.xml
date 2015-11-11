@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Cad Carros</string>
+
+    <!-- Textos da minha app .xml -->
+
+    <string name="txt_carro">Carro:</string>
+    <string name="txt_fabricante">Fabricante:</string>
+    <string name="txt_btn_cadastrar">Cadastrar</string>
+    <string name="ver_carro">Ver Carros</string>
+    <string name="zero_registros">Nenhum registro encontrado!</string>
+    <string name="listagem_carros">Listagem de carros</string>
+    <string name="listar_carros">Listar Carros</string>
+    <string name="nome_carro">Carro</string>
+    <string name="marca_carro">Fabricante</string>
+
+    <!-- textos da minha app .java -->
+    <string name="cad_ok">Cadastro realizado com sucesso!</string>
+    <string name="cad_erro">Falha ao tentar o cadastro!</string>
+
+</resources>
