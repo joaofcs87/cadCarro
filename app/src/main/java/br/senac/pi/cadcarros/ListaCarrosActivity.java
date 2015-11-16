@@ -1,19 +1,24 @@
 package br.senac.pi.cadcarros;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
+import br.senac.pi.cadcarros.domain.Carro;
 import br.senac.pi.cadcarros.domain.CarrosDB;
 
 public class ListaCarrosActivity extends AppCompatActivity {
-
+    //codMeu
     private CursorAdapter dataSource;
     private SQLiteDatabase database;
     private static final String campos[] = {"nome", "marca", "_id"};
@@ -29,6 +34,7 @@ public class ListaCarrosActivity extends AppCompatActivity {
         carrosDB = new CarrosDB(this);
         database = carrosDB.getWritableDatabase();
         findViewById(R.id.btnListarCarros).setOnClickListener(listarCarros());
+        listView.setOnItemClickListener(deletarItem());
     }
 
     private View.OnClickListener listarCarros() {
@@ -36,13 +42,47 @@ public class ListaCarrosActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Cursor carros = database.query("carro", campos, null, null, null, null, null);
-                if (carros.getCount() > 0){
+                if (carros.getCount() > 0) {
 
-                    dataSource = new SimpleCursorAdapter(ListaCarrosActivity.this,R.layout.row, carros, campos, new int[]{R.id.txtNomeCarro,R.id.txtMarcaCarro});
+                    dataSource = new SimpleCursorAdapter(ListaCarrosActivity.this, R.layout.row, carros, campos, new int[]{R.id.txtNomeCarro, R.id.txtMarcaCarro});
                     listView.setAdapter(dataSource);
-                }else{
-                    Toast.makeText(ListaCarrosActivity.this,getString(R.string.zero_registros),Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(ListaCarrosActivity.this, getString(R.string.zero_registros), Toast.LENGTH_LONG).show();
                 }
+            }
+        };
+    }
+
+    //recupera o item do banco pelo _id e faz o delete
+    private AdapterView.OnItemClickListener deletarItem() {
+        return new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                final long itemSelecionado = id;
+                AlertDialog.Builder builder = new AlertDialog.Builder(ListaCarrosActivity.this);
+                builder.setTitle("Pergunta");
+                builder.setMessage("O que deseja fazer?");
+                builder.setPositiveButton("Editar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int id) {
+                        Toast.makeText(ListaCarrosActivity.this, "Clicou em Editar", Toast.LENGTH_LONG).show();
+                    }
+                });
+                builder.setNegativeButton("Deletar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        //long itemSelecionado = id;
+                        Log.i("carro", "ID do item selecionado: " + itemSelecionado);
+                        Carro carro = new Carro();
+                        carro.setId(itemSelecionado);
+                        carrosDB.delete(carro);
+
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
+
             }
         };
     }

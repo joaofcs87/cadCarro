@@ -12,6 +12,7 @@
     <string name="listar_carros">Listar Carros</string>
     <string name="nome_carro">Carro</string>
     <string name="marca_carro">Fabricante</string>
+    <string name="id_carro">ID</string>
 
     <!-- textos da minha app .java -->
     <string name="cad_ok">Cadastro realizado com sucesso!</string>
