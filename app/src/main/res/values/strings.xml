@@ -14,6 +14,11 @@
     <string name="marca_carro">Fabricante</string>
     <string name="id_carro">ID</string>
 
+    <!-- activity_altera_carro.xml -->
+    <string name="codigo">Código</string>
+    <string name="carro">Carro</string>
+    <string name="editar_carro">Editar</string>
+
     <!-- textos da minha app .java -->
     <string name="cad_ok">Cadastro realizado com sucesso!</string>
     <string name="cad_erro">Falha ao tentar o cadastro!</string>

@@ -2,6 +2,7 @@ package br.senac.pi.cadcarros;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
@@ -64,8 +65,18 @@ public class ListaCarrosActivity extends AppCompatActivity {
                 builder.setMessage("O que deseja fazer?");
                 builder.setPositiveButton("Editar", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int id) {
-                        Toast.makeText(ListaCarrosActivity.this, "Clicou em Editar", Toast.LENGTH_LONG).show();
+                    public void onClick(DialogInterface dialog, int id) {
+                        String codigo;
+                        Carro c = new Carro();
+                        Cursor carro = database.query("carro",campos, null, null, null, null, null);
+                        carro.moveToPosition(id);
+                        codigo = carro.getString(carro.getColumnIndexOrThrow("_id"));
+                        Intent intent = new Intent(getApplicationContext(),AlteraCarroActivity.class);
+                        intent.putExtra("id",codigo);
+                        startActivity(intent);
+                        finish();
+                        //Toast.makeText(ListaCarrosActivity.this, "Clicou em Editar", Toast.LENGTH_LONG).show();
+
                     }
                 });
                 builder.setNegativeButton("Deletar", new DialogInterface.OnClickListener() {

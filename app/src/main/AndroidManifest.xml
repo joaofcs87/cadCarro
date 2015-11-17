@@ -17,6 +17,8 @@
         </activity>
         <activity android:name=".ListaCarrosActivity" >
         </activity>
+        <activity android:name=".AlteraCarroActivity" >
+        </activity>
     </application>
 
 </manifest>
