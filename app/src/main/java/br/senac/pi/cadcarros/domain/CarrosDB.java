@@ -86,6 +86,7 @@ public class CarrosDB extends SQLiteOpenHelper {
     }
 
     //listar - consultar com todos os carros
+
     public List<Carro> findAll(){
         SQLiteDatabase db = getWritableDatabase();
         try{

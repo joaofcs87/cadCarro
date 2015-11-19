@@ -19,6 +19,7 @@ import br.senac.pi.cadcarros.domain.Carro;
 import br.senac.pi.cadcarros.domain.CarrosDB;
 
 public class ListaCarrosActivity extends AppCompatActivity {
+
     //codMeu
     private CursorAdapter dataSource;
     private SQLiteDatabase database;
@@ -35,7 +36,7 @@ public class ListaCarrosActivity extends AppCompatActivity {
         carrosDB = new CarrosDB(this);
         database = carrosDB.getWritableDatabase();
         findViewById(R.id.btnListarCarros).setOnClickListener(listarCarros());
-        listView.setOnItemClickListener(deletarItem());
+        listView.setOnItemClickListener(opcaoItem());
     }
 
     private View.OnClickListener listarCarros() {
@@ -55,11 +56,13 @@ public class ListaCarrosActivity extends AppCompatActivity {
     }
 
     //recupera o item do banco pelo _id e faz o delete
-    private AdapterView.OnItemClickListener deletarItem() {
+    private AdapterView.OnItemClickListener opcaoItem() {
         return new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 final long itemSelecionado = id;
+
+                final int posicao = position;
                 AlertDialog.Builder builder = new AlertDialog.Builder(ListaCarrosActivity.this);
                 builder.setTitle("Pergunta");
                 builder.setMessage("O que deseja fazer?");
@@ -67,9 +70,9 @@ public class ListaCarrosActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         String codigo;
-                        Carro c = new Carro();
+                        //Carro c = new Carro();
                         Cursor carro = database.query("carro",campos, null, null, null, null, null);
-                        carro.moveToPosition(id);
+                        carro.moveToPosition(posicao);
                         codigo = carro.getString(carro.getColumnIndexOrThrow("_id"));
                         Intent intent = new Intent(getApplicationContext(),AlteraCarroActivity.class);
                         intent.putExtra("id",codigo);
@@ -84,9 +87,14 @@ public class ListaCarrosActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int id) {
                         //long itemSelecionado = id;
                         Log.i("carro", "ID do item selecionado: " + itemSelecionado);
-                        Carro carro = new Carro();
+
+                        String whereArgs = String.valueOf(itemSelecionado);
+
+                        database.delete("carro","_id = " + whereArgs,null);
+                        /*Carro carro = new Carro();
                         carro.setId(itemSelecionado);
                         carrosDB.delete(carro);
+                        listView.invalidateViews();*/
 
                     }
                 });
